@@ -60,5 +60,12 @@ public class PostalCard implements Serializable{
         this.year = year;
     }
     
-    
+    /**
+     * Método para representar um cartão postal em formato de String.
+     * @return 
+     */
+    @Override
+    public String toString(){
+        return String.format("[%s]: Location = %s;\nYear = %d;\nCost = %f;\n", "PostalCard", this.location, this.year, this.cost);
+    }
 }

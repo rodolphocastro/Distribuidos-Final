@@ -54,12 +54,30 @@ public class ClientImpl extends UnicastRemoteObject implements Client{
         // Ativar as locks ao entrar no método.
         // Propor a troca
         // Aguardar confirmação
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // Verificar se o cartão existe
+        System.out.format("[%s]: %s.\n", this.name, String.format("%s wishes to trade cards", cli.getName()));
+        if(this.searchCard(desired.getLocation(), desired.getYear()) == null){
+            //O cartão desejado não existe
+            System.out.format("[%s]: %s.\n", this.name, "The desired card does not exist");
+            return false;
+        }else{
+            //O cartão desejado existe!
+            System.out.format("[%s]: %s.\n", this.name, "The desired card exists");
+            //Adicionando os cartoes aos novos donos
+            cli.registerCard(desired);
+            this.registerCard(offer);
+            //Removendo os cartoes dos antigos donos
+            cli.removeCard(offer);
+            this.removeCard(desired);
+            System.out.format("[%s]: %s.\n", this.name, "Trade completed");
+            this.printCards();
+            return true;
+        }
     }
 
     @Override
     public ArrayList<PostalCard> fetchCards() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.availableCards;
     }
 
     @Override
@@ -67,6 +85,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client{
         System.out.format("[%s]: %s.\n", this.name, "Adding a new PostalCard");
         if(this.availableCards.add(p)){
             System.out.format("[%s]: %s.\n", this.name, "A new PostalCard has been successfully added");
+            this.printCards();
             return true;
         }
         System.out.format("[%s]: %s.\n", this.name, "Unable to add a new PostalCard");
@@ -122,5 +141,31 @@ public class ClientImpl extends UnicastRemoteObject implements Client{
     @Override
     public void notifyAcceptTrade() throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public ArrayList<Client> getKnowClients() {
+        return knowClients;
+    }
+    
+    /**
+     * 
+     * @param name
+     * @return 
+     */
+    public Client findClient(String name) throws RemoteException{
+        for(Client cli : this.knowClients){
+            if(cli.getName().equalsIgnoreCase(name)){
+                return cli;
+            }
+        }
+        
+        return null;
+    }
+    
+    public void printCards(){
+        System.out.format("[%s]: %s.\n", this.name, "Printing all the available cards");
+        for(PostalCard p : this.availableCards){
+            System.out.format("[%s]: %s\n", this.name, p.toString());
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.ardc.distribuidos_final.entry;
 import com.ardc.distribuidos_final.communication.client.ClientImpl;
 import com.ardc.distribuidos_final.communication.client.interfaces.Client;
 import com.ardc.distribuidos_final.communication.manager.interfaces.Manager;
+import com.ardc.distribuidos_final.model.PostalCard;
 import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -23,7 +24,7 @@ public class AppClient {
      */
     public static void main(String[] args) {
         String mngrName = "CmmMngr";
-        String cliName = "Client-Rodolpho";
+        String cliName = "Client-Beta";
         try {
             System.out.format("[%s]: %s.\n", "CliBoot", "Attempting to locate the Registry");
             Registry reg = LocateRegistry.getRegistry(8765);
@@ -39,6 +40,9 @@ public class AppClient {
             }else{
                 System.out.format("[%s]: %s.\n", "CliBoot", String.format("Client %s did not register on the Manager", cliName));
             }
+            PostalCard pTemp = new PostalCard("Local2", 9.82f, 2015);
+            client.registerCard(pTemp);
+            client.findClient("Client-Alpha").requestTrade(client, client.searchCard("Local2", 2015), new PostalCard("Local1", 9.82f, 2015));
         } catch (Exception ex) {
             System.out.format("[%s]: %s.\n", "CliBoot", "Error when attempting to create a new Client");
             ex.printStackTrace();
