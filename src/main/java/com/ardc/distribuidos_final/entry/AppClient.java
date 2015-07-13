@@ -23,7 +23,7 @@ public class AppClient {
      */
     public static void main(String[] args) {
         String mngrName = "CmmMngr";
-        String cliName = "Client-Alpha";
+        String cliName = "Client-Rodolpho";
         try {
             System.out.format("[%s]: %s.\n", "CliBoot", "Attempting to locate the Registry");
             Registry reg = LocateRegistry.getRegistry(8765);

@@ -20,7 +20,7 @@ public class ManagerImpl extends UnicastRemoteObject implements Manager{
     /**
      * Lista contendo todos os clientes.
      */
-    private ArrayList<Client> registeredClients;
+    private final ArrayList<Client> registeredClients;
     
     /**
      * Construtor para um gestor de trocas.
@@ -49,6 +49,8 @@ public class ManagerImpl extends UnicastRemoteObject implements Manager{
             // Cliente não está cadastrado
             System.out.format("[%s]: %s.\n", "Manager", String.format("Client %s is now registered", cli.getName()));
             this.registeredClients.add(cli);
+            this.notifyAllClients("A new client has connected to the manager");
+            this.refreshAllClients();
             return true;
         }
     }
@@ -76,4 +78,19 @@ public class ManagerImpl extends UnicastRemoteObject implements Manager{
         return this.registeredClients;
     }
     
+    /**
+     * Método para enviar uma mensagem a todos os clientes conectados.
+     * @throws RemoteException 
+     */
+    public void notifyAllClients(String message) throws RemoteException {
+        for(Client cli : this.registeredClients){
+            cli.notify(message);
+        }
+    }
+    
+    public void refreshAllClients() throws RemoteException{
+        for(Client cli : this.registeredClients){
+            cli.refreshConnections();
+        }
+    }
 }

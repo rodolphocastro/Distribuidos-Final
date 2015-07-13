@@ -21,13 +21,19 @@ public interface Client extends Remote, Serializable{
     
     /**
      * Método para executar uma troca de dois cartões postais.
+     * @param cli O cliente propondo a troca.
      * @param offer O cartão sendo oferecido.
      * @param desired O cartão desejado.
      * @return TRUE se a troca obtiver êxito, FALSE caso contrário.
      * @throws RemoteException 
      */
-    public boolean requestTrade(PostalCard offer, PostalCard desired) throws RemoteException;
+    public boolean requestTrade(Client cli, PostalCard offer, PostalCard desired) throws RemoteException;
     
+    /**
+     * 
+     * @throws RemoteException 
+     */
+    public void notifyAcceptTrade() throws RemoteException;
     /**
      * Método para disponibilizar toda a lista de cartas atualmente cadastradas no cliente.
      * @return Retorna um ArrayList contendo os cartões atualmente cadastrados no cliente.
@@ -37,10 +43,11 @@ public interface Client extends Remote, Serializable{
     
     /**
      * Método para cadastrar um cartão postal no cliente.
+     * @param p O cartão postal a ser cadastrado no cliente.
      * @return Retorna TRUE se a carta for cadastrada, FALSE se ocorrer algum erro.
      * @throws RemoteException 
      */
-    public boolean registerCard() throws RemoteException;
+    public boolean registerCard(PostalCard p) throws RemoteException;
     
     /**
      * Método para remover um cartão postal de um cliente.
@@ -65,4 +72,10 @@ public interface Client extends Remote, Serializable{
      * @throws RemoteException 
      */
     public PostalCard searchCard(String location, int year) throws RemoteException;
+    
+    /**
+     * Método para atualizar a lista de clientes atualmente conectados.
+     * @throws RemoteException 
+     */
+    public void refreshConnections() throws RemoteException;
 }
