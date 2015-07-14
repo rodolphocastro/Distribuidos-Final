@@ -78,4 +78,16 @@ public interface Client extends Remote, Serializable{
      * @throws RemoteException 
      */
     public void refreshConnections() throws RemoteException;
+    
+    /**
+     * Método para requisitar a lock remotamente.
+     * @throws RemoteException 
+     */
+    public void lock() throws RemoteException;
+    
+    /**
+     * Método para requisitar um unlock remotamente.
+     * @throws RemoteException 
+     */
+    public void unlock() throws RemoteException;
 }

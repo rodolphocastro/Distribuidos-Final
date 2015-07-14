@@ -40,8 +40,9 @@ public class AppClient {
             }else{
                 System.out.format("[%s]: %s.\n", "CliBoot", String.format("Client %s did not register on the Manager", cliName));
             }
-            PostalCard pTemp = new PostalCard("Local2", 9.82f, 2015);
+            PostalCard pTemp = new PostalCard("Local1", 9.82f, 2015);
             client.registerCard(pTemp);
+            //client.searchCard(pTemp.getLocation(), pTemp.getYear());
             client.findClient("Client-Alpha").requestTrade(client, client.searchCard("Local2", 2015), new PostalCard("Local1", 9.82f, 2015));
         } catch (Exception ex) {
             System.out.format("[%s]: %s.\n", "CliBoot", "Error when attempting to create a new Client");

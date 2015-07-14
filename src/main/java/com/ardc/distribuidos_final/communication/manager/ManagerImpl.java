@@ -27,7 +27,7 @@ public class ManagerImpl extends UnicastRemoteObject implements Manager{
      * @throws RemoteException 
      */
     public ManagerImpl() throws RemoteException{
-        System.out.format("[%s]: %s.\n", "Manager", "Inicializando o Manager");
+        System.out.format("[%s]: %s.\n", "Manager", "Starting up the Manager");
         this.registeredClients = new ArrayList<>();
     }
     
@@ -57,7 +57,7 @@ public class ManagerImpl extends UnicastRemoteObject implements Manager{
 
     @Override
     public Client searchClient(String name) throws RemoteException {
-        System.out.format("[%s]: %s.\n", "Manager", String.format("Buscando pelo cliente de nome %s", name));
+        System.out.format("[%s]: %s.\n", "Manager", String.format("Searching for client with name %s", name));
         // Iterando sobre a lista de clientes registrados
         for(Client cli : this.registeredClients){
             // Se encontrar um cliente com o nome...
@@ -67,7 +67,7 @@ public class ManagerImpl extends UnicastRemoteObject implements Manager{
             }
         }
         // Se  nenhum cliente for encontrado...
-        System.out.format("[%s]: %s.\n", "Manager", String.format("Cliente %s não foi encontrado", name));
+        System.out.format("[%s]: %s.\n", "Manager", String.format("Client %s wasn't found", name));
         // Retorne null
         return null;
     }
@@ -80,6 +80,7 @@ public class ManagerImpl extends UnicastRemoteObject implements Manager{
     
     /**
      * Método para enviar uma mensagem a todos os clientes conectados.
+     * @param message A mensagem a ser enviada a todos os clientes.
      * @throws RemoteException 
      */
     public void notifyAllClients(String message) throws RemoteException {
@@ -88,6 +89,10 @@ public class ManagerImpl extends UnicastRemoteObject implements Manager{
         }
     }
     
+    /**
+     * Método para atualizar as conexões de todos os clientes.
+     * @throws RemoteException 
+     */
     public void refreshAllClients() throws RemoteException{
         for(Client cli : this.registeredClients){
             cli.refreshConnections();
