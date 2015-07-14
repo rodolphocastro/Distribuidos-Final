@@ -75,17 +75,20 @@ public class ClientImpl extends UnicastRemoteObject implements Client{
             try{
                 //Adicionando os cartoes aos novos donos
                 cli.registerCard(desired);
-                this.registerCard(offer);
-                //Removendo os cartoes dos antigos donos
                 cli.removeCard(offer);
+                this.registerCard(offer);
                 this.removeCard(desired);
+                //Removendo os cartoes dos antigos donos
+                //cli.removeCard(offer);
+                //this.removeCard(desired);
             } finally {
                 this.unlock();
                 cli.unlock();
                 System.out.format("[%s]: %s.\n", this.name, "Trade completed");
                 this.printCards();
+                return true;
             }
-            return true;
+            
         }
     }
 
@@ -109,10 +112,11 @@ public class ClientImpl extends UnicastRemoteObject implements Client{
     @Override
     public boolean removeCard(PostalCard p) throws RemoteException {
         System.out.format("[%s]: %s.\n", this.name, String.format("Attempting to remove PostalCard with data [%s, %d]", p.getLocation(), p.getYear()));
-        if(this.searchCard(p.getLocation(), p.getYear()) != null){
+        PostalCard pTemp = this.searchCard(p.getLocation(), p.getYear());
+        if(pTemp != null){
             //Postal card encontrado, remove-lo da lista.
             System.out.format("[%s]: %s.\n", this.name, "Removing the PostalCard");
-            this.availableCards.remove(p);
+            this.availableCards.remove(pTemp);
             return true;
         }
         //Nenhum cartão foi encontrado, retornar false.
@@ -138,7 +142,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client{
                 }
             }
         } finally {
-            this.unlock();
+            //this.unlock();
             System.out.format("[%s]: %s\n", this.name, "Unlocking");
         }
         

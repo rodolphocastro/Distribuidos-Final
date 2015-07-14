@@ -18,20 +18,27 @@ import java.util.logging.Logger;
  */
 public class AppClient {
     
+    private static Registry reg;
+    public static Manager mngr;
+    public  static ClientImpl client;
+    
     /**
      * Método para executar um cliente.
      * @param args 
      */
     public static void main(String[] args) {
-        String mngrName = "CmmMngr";
-        String cliName = "Client-Beta";
+        
+        String mngrName = args[0];
+        String cliName = args[1];
+        System.out.format("[%s]: %s.\n", "CliBoot", String.format("Booting client, manager name is %s", mngrName));
+        System.out.format("[%s]: %s.\n", "CliBoot", String.format("Booting client, client name is %s", cliName));
         try {
             System.out.format("[%s]: %s.\n", "CliBoot", "Attempting to locate the Registry");
-            Registry reg = LocateRegistry.getRegistry(8765);
+            reg = LocateRegistry.getRegistry(8765);
             System.out.format("[%s]: %s.\n", "CliBoot", "Attempting to locate the Manager");
-            Manager mngr = (Manager) reg.lookup(mngrName);
+            mngr = (Manager) reg.lookup(mngrName);
             System.out.format("[%s]: %s.\n", "CliBoot", String.format("Setting up client %s", cliName));
-            ClientImpl client = new ClientImpl(cliName, mngr);
+            client = new ClientImpl(cliName, mngr);
             System.out.format("[%s]: %s.\n", "CliBoot", String.format("Binding client %s to the Registry", cliName));
             reg.rebind(cliName, client);
             mngr.notify(cliName + " says hi!");
@@ -40,10 +47,10 @@ public class AppClient {
             }else{
                 System.out.format("[%s]: %s.\n", "CliBoot", String.format("Client %s did not register on the Manager", cliName));
             }
-            PostalCard pTemp = new PostalCard("Local1", 9.82f, 2015);
-            client.registerCard(pTemp);
+            //PostalCard pTemp = new PostalCard("Local1", 9.82f, 2015);
+            //client.registerCard(pTemp);
             //client.searchCard(pTemp.getLocation(), pTemp.getYear());
-            client.findClient("Client-Alpha").requestTrade(client, client.searchCard("Local2", 2015), new PostalCard("Local1", 9.82f, 2015));
+            //client.findClient("Client-Alpha").requestTrade(client, client.searchCard("Local2", 2015), new PostalCard("Local1", 9.82f, 2015));
         } catch (Exception ex) {
             System.out.format("[%s]: %s.\n", "CliBoot", "Error when attempting to create a new Client");
             ex.printStackTrace();
