@@ -1,16 +1,9 @@
 package com.ardc.distribuidos_final.entry;
 
 import com.ardc.distribuidos_final.communication.client.ClientImpl;
-import com.ardc.distribuidos_final.communication.client.interfaces.Client;
 import com.ardc.distribuidos_final.communication.manager.interfaces.Manager;
-import com.ardc.distribuidos_final.model.PostalCard;
-import java.rmi.AccessException;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Classe para executar um cliente, deve ser executada após a inicialização de um Manager.
@@ -20,7 +13,7 @@ public class AppClient {
     
     private static Registry reg;
     public static Manager mngr;
-    public  static ClientImpl client;
+    public static ClientImpl client;
     
     /**
      * Método para executar um cliente.
@@ -46,11 +39,8 @@ public class AppClient {
                 System.out.format("[%s]: %s.\n", "CliBoot", String.format("Client %s is now registered on the Manager", cliName));
             }else{
                 System.out.format("[%s]: %s.\n", "CliBoot", String.format("Client %s did not register on the Manager", cliName));
+                System.exit(-1);
             }
-            //PostalCard pTemp = new PostalCard("Local1", 9.82f, 2015);
-            //client.registerCard(pTemp);
-            //client.searchCard(pTemp.getLocation(), pTemp.getYear());
-            //client.findClient("Client-Alpha").requestTrade(client, client.searchCard("Local2", 2015), new PostalCard("Local1", 9.82f, 2015));
         } catch (Exception ex) {
             System.out.format("[%s]: %s.\n", "CliBoot", "Error when attempting to create a new Client");
             ex.printStackTrace();

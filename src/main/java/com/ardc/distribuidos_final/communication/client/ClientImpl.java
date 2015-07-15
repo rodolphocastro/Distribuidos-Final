@@ -44,6 +44,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client{
      * Construtor para um cliente.
      * @param name O nome do cliente.
      * @param rmiManager Referência ao manager que irá ser conhecido por esse cliente.
+     * @throws java.rmi.RemoteException
      */
     public ClientImpl(String name, Manager rmiManager) throws RemoteException{
         this.name = name;
@@ -62,7 +63,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client{
         // Aguardar confirmação
         // Verificar se o cartão existe
         System.out.format("[%s]: %s.\n", this.name, String.format("%s wishes to trade cards", cli.getName()));
-        if(this.searchCard(desired.getLocation(), desired.getYear()) == null){
+        if(this.searchCard(desired.getLocation(), desired.getYear()) == null || cli.searchCard(offer.getLocation(), offer.getYear()) == null){
             //O cartão desejado não existe
             System.out.format("[%s]: %s.\n", this.name, "The desired card does not exist");
             return false;

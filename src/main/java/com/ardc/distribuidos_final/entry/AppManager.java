@@ -4,8 +4,6 @@ import com.ardc.distribuidos_final.communication.manager.ManagerImpl;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Classe para executar um Manager, deve ser executada antes dos clientes ou eles não poderam se comunicar.
