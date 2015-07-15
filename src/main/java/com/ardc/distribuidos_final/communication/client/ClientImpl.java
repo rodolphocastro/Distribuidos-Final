@@ -70,7 +70,8 @@ public class ClientImpl extends UnicastRemoteObject implements Client{
             //O cartão desejado existe!
             System.out.format("[%s]: %s.\n", this.name, "The desired card exists");
             //Iniciando lock dos clientes
-            this.lock();
+            //this.lock();
+            lock.tryLock();
             cli.lock();
             try{
                 //Adicionando os cartoes aos novos donos
@@ -82,7 +83,8 @@ public class ClientImpl extends UnicastRemoteObject implements Client{
                 //cli.removeCard(offer);
                 //this.removeCard(desired);
             } finally {
-                this.unlock();
+                //this.unlock();
+                lock.unlock();
                 cli.unlock();
                 System.out.format("[%s]: %s.\n", this.name, "Trade completed");
                 this.printCards();
@@ -132,7 +134,8 @@ public class ClientImpl extends UnicastRemoteObject implements Client{
     @Override
     public PostalCard searchCard(String location, int year) throws RemoteException {
         System.out.format("[%s]: %s\n", this.name, String.format("Searching for a PostalCard with data [%s,%d]", location, year));
-        this.lock();
+        //this.lock();
+        lock.tryLock();
         System.out.format("[%s]: %s\n", this.name, "Locking up");
         try{
             for(PostalCard p : this.availableCards){
@@ -143,6 +146,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client{
             }
         } finally {
             //this.unlock();
+            lock.unlock();
             System.out.format("[%s]: %s\n", this.name, "Unlocking");
         }
         
